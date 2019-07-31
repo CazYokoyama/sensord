@@ -469,7 +469,7 @@ int main (int argc, char **argv) {
 		close(STDERR_FILENO);
 		
 		//open file for log output
-		fp_console = fopen("sensord.log","w+");
+		fp_console = fopen("/var/log/openvario/sensord.log","w+");
 		stderr = fp_console;
 		setbuf(fp_console, NULL);
 	}

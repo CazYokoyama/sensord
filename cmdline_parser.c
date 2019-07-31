@@ -43,7 +43,7 @@ void cmdline_parser(int argc, char **argv, t_io_mode *io_mode){
 	int c;
 	char datalog_filename[50];
 	char sensordata_filename[50];
-	char config_filename[50];
+	char config_filename[50] = "/opt/conf/sensord.conf";
 	
 	const char* Usage = "\n"\
     "  -v              print version information\n"\
@@ -165,4 +165,4 @@ void cmdline_parser(int argc, char **argv, t_io_mode *io_mode){
 		}
 	}
 }
-	
+
