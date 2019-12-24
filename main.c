@@ -149,6 +149,25 @@ int NMEA_message_handler(int sock)
 	switch (nmea_counter)
 	{
 		case 5:
+			if (config.output_POV_V == 1 && voltage_sensor.present)
+			{
+
+				// Compose POV slow NMEA sentences
+				result = Compose_Voltage_POV(&s[0], voltage_sensor.voltage_converted);
+
+				// NMEA sentence valid ?? Otherwise print some error !!
+				if (result != 1)
+				{
+					printf("POV voltage NMEA Result = %d\n",result);
+				}
+
+				// Send NMEA string via socket to XCSoar
+				if ((sock_err = send(sock, s, strlen(s), 0)) < 0)
+				{
+					fprintf(stderr, "send failed\n");
+					break;
+				}
+			}
 		case 10:
 		case 15:
 		case 20:
@@ -191,26 +210,6 @@ int NMEA_message_handler(int sock)
 				if (result != 1)
 				{
 					printf("POV fast NMEA Result = %d\n",result);
-				}	
-				
-				// Send NMEA string via socket to XCSoar
-				if ((sock_err = send(sock, s, strlen(s), 0)) < 0)
-				{	
-					fprintf(stderr, "send failed\n");
-					break;
-				}
-			}
-			
-			if (config.output_POV_V == 1 && voltage_sensor.present)
-			{
-
-				// Compose POV slow NMEA sentences
-				result = Compose_Voltage_POV(&s[0], voltage_sensor.voltage_converted);
-				
-				// NMEA sentence valid ?? Otherwise print some error !!
-				if (result != 1)
-				{
-					printf("POV voltage NMEA Result = %d\n",result);
 				}	
 				
 				// Send NMEA string via socket to XCSoar
